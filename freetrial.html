@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Form</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-image: url(https://img.freepik.com/free-vector/flat-geometric-background_23-2148974368.jpg?w=1060&t=st=1710118897~exp=1710119497~hmac=a401d142ca8da271b70b92f14368031d7ba7c1949e18b0680506627b56155227);
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+        }
+
+        .reservation-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .reservation-form {
+            background-color: #12c4a0;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        h2, h3 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .form-control {
+            margin-bottom: 15px;
+        }
+
+        .d-grid button {
+            background-color: white;
+            color: #12c4a0;
+            font-weight: bold;
+        }
+
+        .d-grid button:hover {
+            background-color: #12c4a0;
+        }
+
+        .error {
+            color: red;
+            font-size: 14px;
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="reservation-container">
+        <div class="reservation-form">
+            <!-- Sign-up Form -->
+            <div id="signupForm">
+                <h3>Create Account</h3>
+                <form id="reservationForm" onsubmit="return validateForm();">
+                    <input type="text" class="form-control" id="name" placeholder="Name" required>
+                    <div id="nameError" class="error"></div>
+
+                    <input type="email" class="form-control" id="email" placeholder="Email Address" required>
+                    <div id="emailError" class="error"></div>
+
+                    <input type="password" class="form-control" id="password" placeholder="Password" required>
+                    <div id="passwordError" class="error"></div>
+                    
+                    <input type="text" class="form-control" id="phone" placeholder="Phone Number" required>
+                    <div id="phoneError" class="error"></div>
+
+                    <input type="text" class="form-control" id="aboutCompany" placeholder="Tell us about your business...." required>
+                    <div id="aboutError" class="error"></div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn">Sign Up</button>
+                    </div>
+                </form>
+                <div class="toggle-link"><br>
+                    Already have an account? <a onclick="showLoginForm()">Login here</a>
+                </div>
+            </div>
+
+            <!-- Login Form (Hidden by default) -->
+            <div id="loginForm" style="display: none;">
+                <h3>Login</h3>
+                <form id="loginFormFields" onsubmit="return validateLoginForm();">
+                    <input type="email" class="form-control" id="loginEmail" placeholder="Email Address" required>
+                    <div id="loginEmailError" class="error"></div>
+                    
+                    <input type="password" class="form-control" id="loginPassword" placeholder="Password" required>
+                    <div id="loginPasswordError" class="error"></div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn">Login</button>
+                    </div>
+                </form>
+                <div class="toggle-link"><br>
+                    Don't have an account? <a onclick="showSignUpForm()">Sign up here</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Show login form and hide sign-up form
+        function showLoginForm() {
+            document.getElementById('signupForm').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'block';
+        }
+
+        // Show sign-up form and hide login form
+        function showSignUpForm() {
+            document.getElementById('signupForm').style.display = 'block';
+            document.getElementById('loginForm').style.display = 'none';
+        }
+
+        // Validate sign-up form
+        function validateForm() {
+            let valid = true;
+
+            // Clear previous errors
+            document.getElementById('nameError').innerText = "";
+            document.getElementById('phoneError').innerText = "";
+            document.getElementById('emailError').innerText = "";
+            document.getElementById('passwordError').innerText = "";
+            document.getElementById('aboutError').innerText = "";
+
+            // Name validation
+            const name = document.getElementById('name').value;
+            const namePattern = /^[a-zA-Z\s]+$/;
+            if (!name.match(namePattern)) {
+                document.getElementById('nameError').innerText = "Name must contain only letters and spaces.";
+                valid = false;
+            }
+
+            // Phone number validation
+            const phone = document.getElementById('phone').value;
+            const phonePattern = /^\d{10}$/;
+            if (!phone.match(phonePattern)) {
+                document.getElementById('phoneError').innerText = "Phone number must be 10 digits.";
+                valid = false;
+            }
+
+            // Password validation
+            const password = document.getElementById('password').value;
+            if (password.length < 6) {
+                document.getElementById('passwordError').innerText = "Password must be at least 6 characters.";
+                valid = false;
+            }
+
+            // About company validation
+            const about = document.getElementById('aboutCompany').value;
+            if (about === "") {
+                document.getElementById('aboutError').innerText = "Please provide information about your company or project.";
+                valid = false;
+            }
+
+            // If any validation fails, return false to prevent form submission
+            return valid;
+        }
+
+        // Validate login form
+        function validateLoginForm() {
+            let valid = true;
+
+            // Clear previous errors
+            document.getElementById('loginEmailError').innerText = "";
+            document.getElementById('loginPasswordError').innerText = "";
+
+            // Password validation
+            const password = document.getElementById('loginPassword').value;
+            if (password.length < 6) {
+                document.getElementById('loginPasswordError').innerText = "Password must be at least 6 characters.";
+                valid = false;
+            }
+
+            return valid;
+        }
+    </script>
+
+</body>
+</html>
